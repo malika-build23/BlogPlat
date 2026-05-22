@@ -1,41 +1,69 @@
 import React from 'react'
 
-const Blogcard = () => {
-  return (
-      <a href="#" className="hover-3d my-12 mx-2 cursor-pointer">
+const Blogcard = (props) => {
+    return (
 
-          {/* content */}
-          <div className="card w-96 bg-black text-white bg-[radial-gradient(circle_at_bottom_left,#ffffff04_35%,transparent_36%),radial-gradient(circle_at_top_right,#ffffff04_35%,transparent_36%)] bg-size-[4.95em_4.95em]">
-              <div className="card-body">
-                  <div className="flex justify-between mb-10">
-                      <div className="font-bold">BANK OF LATVERIA</div>
-                      <div className="text-5xl opacity-10">❁</div>
-                  </div>
-                  <div className="text-lg mb-4 opacity-40">0210 8820 1150 0222</div>
-                  <div className="flex justify-between">
-                      <div>
-                          <div className="text-xs opacity-20">CARD HOLDER</div>
-                          <div>VICTOR VON D.</div>
-                      </div>
-                      <div>
-                          <div className="text-xs opacity-20">EXPIRES</div>
-                          <div>29/08</div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+        <div className="hover:scale-105 transition-all duration-300 cursor-pointer">
 
-          {/* 8 empty divs needed for the 3D effect */}
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-      </a>
-  )
+            <div className="card w-96 bg-black text-white shadow-2xl overflow-hidden">
+
+                {/* Blog Image */}
+                <figure>
+                    <img
+                        src={props.image}
+                        alt="blog"
+                        className="h-56 w-full object-cover"
+                    />
+                </figure>
+
+                {/* Card Content */}
+                <div className="card-body">
+
+                    {/* Category */}
+                    <div className="badge badge-primary">
+                        Technology
+                    </div>
+
+                    {/* Title */}
+                    <h2 className="card-title text-2xl mt-2">
+                        {props.title}
+                    </h2>
+
+                    {/* Description */}
+                    <p className="text-gray-300">
+                        {props.description}
+                    </p>
+
+                    {/* Footer */}
+                    <div className="flex justify-between items-center mt-4">
+
+                        <div className="flex items-center gap-2">
+
+                            <div className="avatar">
+                                <div className="w-8 rounded-full">
+                                    <img src="https://i.pravatar.cc/100" />
+                                </div>
+                            </div>
+
+                            <span className="text-sm">
+                                Malik
+                            </span>
+
+                        </div>
+
+                        <button className="btn btn-primary btn-sm">
+                            Read More
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    )
 }
 
 export default Blogcard
