@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const Blogcard = (props) => {
+    const [likes, setLikes] = useState(0);
     return (
 
         <div className="hover:scale-105 transition-all duration-300 cursor-pointer">
@@ -33,6 +34,12 @@ const Blogcard = (props) => {
                     <p className="text-gray-300">
                         {props.description}
                     </p>
+                    <button
+                        className="btn btn-primary mt-4"
+                        onClick={() => setLikes(likes + 1)}
+                    >
+                        ❤️ {likes}
+                    </button>
 
                     {/* Footer */}
                     <div className="flex justify-between items-center mt-4">
