@@ -11,31 +11,31 @@ import CreateBlog from "./pages/CreateBlog"
 // import BlogDetails from "./pages/BlogDetails"
 
 function App() {
-  const [blogs, setBlogs] = useState([]);
-  // const blogs = [
 
-  //   {
-  //     id: 1,
-  //     title: "Learning React",
-  //     description: "Build modern frontend applications using React.",
-  //     image: "https://picsum.photos/400/200?1"
-  //   },
+  const [blogs, setBlogs] = useState([
 
-  //   {
-  //     id: 2,
-  //     title: "Master Tailwind CSS",
-  //     description: "Learn utility-first CSS styling.",
-  //     image: "https://picsum.photos/400/200?2"
-  //   },
+    {
+      id: 1,
+      title: "Learning React",
+      content: "Build modern frontend applications using React.",
+      image: "https://picsum.photos/400/200?1"
+    },
 
-  //   {
-  //     id: 3,
-  //     title: "Using daisyUI",
-  //     description: "Create modern UI components quickly.",
-  //     image: "https://picsum.photos/400/200?3"
-  //   }
+    {
+      id: 2,
+      title: "Master Tailwind CSS",
+      content: "Learn utility-first CSS styling.",
+      image: "https://picsum.photos/400/200?2"
+    },
 
- // ]
+    {
+      id: 3,
+      title: "Using daisyUI",
+      content: "Create modern UI components quickly.",
+      image: "https://picsum.photos/400/200?3"
+    }
+
+  ]);
   return (
     <BrowserRouter>
 

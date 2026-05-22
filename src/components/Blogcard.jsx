@@ -52,7 +52,7 @@ const Blogcard = (props) => {
                         </button>
 
 
-                        <button class="btn btn-outline"
+                        <button className="btn btn-outline"
                             onClick={() => setDislikes(prev => prev + 1)}
                         >
                             ❌ {dislikes}
