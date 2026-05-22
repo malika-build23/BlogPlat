@@ -39,9 +39,10 @@ const Blogcard = (props) => {
                         onClick={() => setLikes(likes + 1)}
                     >
                         ❤️ {likes}
+                        
                     </button>
 
-                    {/* Footer */}
+                    {}
                     <div className="flex justify-between items-center mt-4">
 
                         <div className="flex items-center gap-2">
