@@ -178,23 +178,22 @@ const Blogcard = (props) => {
                                 {author.displayName}
                             </span>
                         </div>
-
                         <Link
                             to={`/blog/${props.id}`}
-                            className="btn btn-primary btn-sm"
+                            className="text-blue-400 hover:underline"
                         >
                             Read More
                         </Link>
 
                         <button
-                            className="btn btn-error btn-sm"
+                            className="text-gray-400 hover:text-red-500"
                             onClick={() => props.deleteBlog(props.id)}
                         >
                             Delete
                         </button>
                         <Link
                             to={`/edit-blog/${props.id}`}
-                            className="btn btn-warning btn-sm"
+                            className="text-gray-400 hover:text-blue-400"
                         >
                             Edit
                         </Link>
@@ -204,8 +203,6 @@ const Blogcard = (props) => {
                 </div>
             </div>
         </div>
-
-
 
     );
 };

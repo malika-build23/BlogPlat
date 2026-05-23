@@ -1,7 +1,23 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Blogcard from "../components/blogcard"
 
 const Home = ({ blogs, deleteBlog }) => {
+    const blogSectionRef = useRef(null);
+
+ 
+    const scrollToBlogs = () => {
+        if (blogSectionRef.current) {
+            // Calculates absolute top position to bypass any CSS layout traps
+            const topPosition = blogSectionRef.current.getBoundingClientRect().top + window.scrollY;
+
+            window.scrollTo({
+                top: topPosition,
+                behavior: 'smooth'
+            });
+        }
+
+        
+    };
 
     return (
         <div>
@@ -15,22 +31,25 @@ const Home = ({ blogs, deleteBlog }) => {
                 <div className="hero-overlay"></div>
                 <div className="hero-content text-neutral-content text-center">
                     <div className="max-w-md">
-                        <h1 className="mb-5 text-5xl font-bold">Where Great Ideas Find Their Voice</h1>
+                        <h1 className="mb-5 text-5xl font-bold">Where Great Ideas Find Their Voice!!</h1>
                         <p className="mb-5">
                             We don't do clickbait here. Instead, you'll find independent voices, honest expert insights, and unfiltered deep dives into the stuff you actually care about. Find your next favorite writer, learn something new, and see where your curiosity takes you
                         </p>
-                        <button className="btn btn-primary">Get Started</button>
+                        <button onClick={scrollToBlogs} type="button" className="btn btn-dash">
+                            Get Started
+                        </button>
                     </div>
                 </div>
             </div>
-            <div className="min-h-screen bg-gray-900 p-6">
+
+            <div ref={blogSectionRef} className="min-h-screen bg-gray-900 p-6">
 
                 <div className="flex flex-wrap gap-6 justify-center">
 
-                    {blogs.map((blog) => (
+                    {blogs.map((blog,index) => (
 
                         <Blogcard
-                            key={blog.id}
+                            key={`${blog.id}-${index}`}
                             id={blog.id}
                             title={blog.title}
                             image={blog.image}

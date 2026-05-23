@@ -74,7 +74,20 @@ function App() {
             displayName: "Admin",
             photoURL: "https://i.pravatar.cc/100?u=admin"
           }
+        },
+
+        {
+          id: 4,
+          title: "Using daisyUI",
+          content: "Create modern UI components quickly.",
+          category: "UI",
+          image: "https://picsum.photos/400/200?3",
+          author: {
+            displayName: "Admin",
+            photoURL: "https://i.pravatar.cc/100?u=admin"
+          }
         }
+        
 
       ]
 
@@ -102,7 +115,7 @@ function App() {
 
       <Navbar user={user} />
 
-      <div className="pt-20">
+      <div className="pt-16">
 
         <Routes>
 
