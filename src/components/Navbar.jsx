@@ -2,6 +2,13 @@ import React from 'react'
 import { Link } from "react-router-dom"
 
 const Navbar = ({ user }) => {
+    const getPhotoURL = () => {
+        if (!user?.photoURL) return "https://i.pravatar.cc/100";
+        if (user.photoURL.includes('googleusercontent')) {
+            return `https://images.weserv.nl/?url=${encodeURIComponent(user.photoURL)}`;
+        }
+        return user.photoURL;
+    };
     return (
 
         <div className="fixed top-0 left-0 right-0 z-[9999] bg-base-100 shadow-md">
@@ -93,13 +100,13 @@ const Navbar = ({ user }) => {
                             <div className="flex items-center gap-2">
 
                                 <img
-                                    src={user.photoURL}
-                                    alt="user"
-                                    className="w-10 h-10 rounded-full"
+                                    src={getPhotoURL()}
+                                    alt={user?.displayName || "user"}
+                                    className="w-10 h-10 rounded-full object-cover"
                                 />
 
                                 <p className="font-semibold">
-                                    {user.displayName}
+                                    {user.displayName || "User"}
                                 </p>
 
                             </div>

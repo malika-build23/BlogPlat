@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-const CreateBlog = ({ blogs, setBlogs }) => {
+const CreateBlog = ({ blogs, setBlogs, user }) => {
 
 
     const [blog, setBlog] = useState({
@@ -30,6 +30,10 @@ const CreateBlog = ({ blogs, setBlogs }) => {
             image: blog.image,
             category: blog.category,
             content: blog.content,
+            author: {
+                displayName: user?.displayName || "Anonymous",
+                photoURL: user?.photoURL || "https://i.pravatar.cc/100"
+            }
         };
 
         setBlogs([...blogs, newBlog]);
@@ -38,6 +42,7 @@ const CreateBlog = ({ blogs, setBlogs }) => {
             image: "",
             category: "",
             content: "",
+
         })
         console.log(newBlog);
 

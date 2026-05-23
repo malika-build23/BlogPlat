@@ -1,21 +1,28 @@
 import React from 'react'
 import { useParams } from "react-router-dom"
 
-
-
-
 const BlogDetails = ({ blogs }) => {
-    const { id } = useParams()
+    const { id } = useParams();
     const blog = blogs.find(
         (b) => String(b.id) === String(id)
-    )
+    );
 
     if (!blog) {
-        return <h1>Blog not found</h1>
+        return <h1>Blog not found</h1>;
     }
 
+    const author = blog.author || {
+        displayName: "Anonymous",
+        photoURL: "https://i.pravatar.cc/100"
+    };
 
-    
+    const getAuthorPhotoURL = () => {
+        if (author.photoURL.includes('googleusercontent')) {
+            return `https://images.weserv.nl/?url=${encodeURIComponent(author.photoURL)}`;
+        }
+        return author.photoURL;
+    };
+
     return (
 
         <div className="min-h-screen pt-15 px-6 bg-base-200">
@@ -42,17 +49,21 @@ const BlogDetails = ({ blogs }) => {
 
                         <div className="avatar">
                             <div className="w-14 rounded-full">
-                                <img src="https://i.pravatar.cc/100" />
+                                <img
+                                    src={getAuthorPhotoURL()}
+                                    alt={author.displayName}
+                                    className="w-10 h-10 rounded-full"
+                                />
                             </div>
                         </div>
 
                         <div>
                             <h3 className="font-bold">
-                                Malik
+                                {author.displayName}
                             </h3>
 
                             <p className="text-sm opacity-70">
-                                Blog Author
+                                Author
                             </p>
                         </div>
 
@@ -64,9 +75,7 @@ const BlogDetails = ({ blogs }) => {
 
         </div>
 
-    )
-
-
+    );
 }
 
-export default BlogDetails
+export default BlogDetails;

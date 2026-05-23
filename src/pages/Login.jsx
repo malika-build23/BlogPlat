@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import {
     GoogleAuthProvider,
-    signInWithPopup
+    signInWithPopup,
+    updateProfile
 }
     from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -27,6 +28,12 @@ const Login = () => {
                     email,
                     password
                 );
+
+            // Set user profile with display name and photo URL
+            await updateProfile(userCredential.user, {
+                displayName: email.split("@")[0],
+                photoURL: `https://i.pravatar.cc/100?u=${email}`
+            });
 
             console.log(userCredential.user);
 

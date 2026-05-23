@@ -9,16 +9,15 @@ const Home = ({ blogs, deleteBlog }) => {
                 className="hero min-h-screen"
                 style={{
                     backgroundImage:
-                        "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
+                        "url(https://images.unsplash.com/photo-1779128013308-fa4bf035a4cf?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
                 }}
             >
                 <div className="hero-overlay"></div>
                 <div className="hero-content text-neutral-content text-center">
                     <div className="max-w-md">
-                        <h1 className="mb-5 text-5xl font-bold">Hello there</h1>
+                        <h1 className="mb-5 text-5xl font-bold">Where Great Ideas Find Their Voice</h1>
                         <p className="mb-5">
-                            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-                            quasi. In deleniti eaque aut repudiandae et a id nisi.
+                            We don't do clickbait here. Instead, you'll find independent voices, honest expert insights, and unfiltered deep dives into the stuff you actually care about. Find your next favorite writer, learn something new, and see where your curiosity takes you
                         </p>
                         <button className="btn btn-primary">Get Started</button>
                     </div>
@@ -38,6 +37,7 @@ const Home = ({ blogs, deleteBlog }) => {
                             content={blog.content}
                             category={blog.category}
                             deleteBlog={deleteBlog}
+                            author={blog.author}
                         />
 
                     ))}

@@ -4,6 +4,18 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom"
 
 const Blogcard = (props) => {
+    const author = props.author || {
+        displayName: "Anonymous",
+        photoURL: "https://i.pravatar.cc/100"
+    };
+    
+    const getAuthorPhotoURL = () => {
+        if (author.photoURL.includes('googleusercontent')) {
+            return `https://images.weserv.nl/?url=${encodeURIComponent(author.photoURL)}`;
+        }
+        return author.photoURL;
+    };
+    
     const [likes, setLikes] = useState(0);
     const [dislikes, setDislikes] = useState(0);
 
@@ -152,12 +164,18 @@ const Blogcard = (props) => {
                         <div className="flex items-center gap-2">
                             <div className="avatar">
                                 <div className="w-8 rounded-full">
-                                    <img src="https://i.pravatar.cc/100" />
+                                    <img
+                                        src={getAuthorPhotoURL()}
+                                        alt={author.displayName}
+                                        className="w-10 h-10 rounded-full"
+                                    />
+
+
                                 </div>
                             </div>
 
                             <span className="text-sm">
-                                Malik
+                                {author.displayName}
                             </span>
                         </div>
 

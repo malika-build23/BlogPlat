@@ -45,7 +45,11 @@ function App() {
           title: "Learning React",
           content: "Build modern frontend applications using React.",
           category: "React",
-          image: "https://picsum.photos/400/200?1"
+          image: "https://picsum.photos/400/200?1",
+          author: {
+            displayName: "Admin",
+            photoURL: "https://i.pravatar.cc/100?u=admin"
+          }
         },
 
         {
@@ -53,7 +57,11 @@ function App() {
           title: "Master Tailwind CSS",
           content: "Learn utility-first CSS styling.",
           category: "CSS",
-          image: "https://picsum.photos/400/200?2"
+          image: "https://picsum.photos/400/200?2",
+          author: {
+            displayName: "Admin",
+            photoURL: "https://i.pravatar.cc/100?u=admin"
+          }
         },
 
         {
@@ -61,7 +69,11 @@ function App() {
           title: "Using daisyUI",
           content: "Create modern UI components quickly.",
           category: "UI",
-          image: "https://picsum.photos/400/200?3"
+          image: "https://picsum.photos/400/200?3",
+          author: {
+            displayName: "Admin",
+            photoURL: "https://i.pravatar.cc/100?u=admin"
+          }
         }
 
       ]
@@ -109,6 +121,7 @@ function App() {
               <CreateBlog
                 blogs={blogs}
                 setBlogs={setBlogs}
+                user={user}
               />
             }
           />
