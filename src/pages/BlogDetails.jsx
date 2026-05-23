@@ -2,34 +2,14 @@ import React from 'react'
 import { useParams } from "react-router-dom"
 
 
-const blogs = [
 
-    {
-        id: 1,
-        title: "Learning React",
-        description: "This is full React blog content.",
-        image: "https://picsum.photos/800/400?1"
-    },
 
-    {
-        id: 2,
-        title: "Master Tailwind",
-        description: "This is full Tailwind blog content.",
-        image: "https://picsum.photos/800/400?2"
-    },
-
-    {
-        id: 3,
-        title: "Using daisyUI",
-        description: "This is full daisyUI blog content.",
-        image: "https://picsum.photos/800/400?3"
-    }
-
-]
-
-const BlogDetails = (b) => {
+const BlogDetails = ({ blogs }) => {
     const { id } = useParams()
-    const blog = blogs.find((b) => b.id === Number(id))
+    const blog = blogs.find(
+        (b) => String(b.id) === String(id)
+    )
+
     if (!blog) {
         return <h1>Blog not found</h1>
     }
@@ -38,7 +18,7 @@ const BlogDetails = (b) => {
     
     return (
 
-        <div className="min-h-screen pt-28 px-6 bg-base-200">
+        <div className="min-h-screen pt-15 px-6 bg-base-200">
 
             <div className="max-w-4xl mx-auto bg-base-100 shadow-xl rounded-2xl overflow-hidden">
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import Blogcard from "../components/blogcard"
 
-const Home = ({ blogs }) => {
+const Home = ({ blogs, deleteBlog }) => {
 
     return (
         <div>
@@ -35,8 +35,9 @@ const Home = ({ blogs }) => {
                             id={blog.id}
                             title={blog.title}
                             image={blog.image}
-                            description={blog.content}
+                            content={blog.content}
                             category={blog.category}
+                            deleteBlog={deleteBlog}
                         />
 
                     ))}

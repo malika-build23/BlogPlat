@@ -38,9 +38,9 @@ const Blogcard = (props) => {
                         {props.title}
                     </h2>
 
-                    {/* Description */}
+                    {/* content */}
                     <p className="text-gray-300">
-                        {props.description}
+                        {props.content.slice(0, 120)}...
                     </p>
 
                     {/* Likes / Dislikes */}
@@ -167,6 +167,13 @@ const Blogcard = (props) => {
                         >
                             Read More
                         </Link>
+
+                        <button
+                            className="btn btn-error btn-sm"
+                            onClick={() => props.deleteBlog(props.id)}
+                        >
+                            Delete
+                        </button>
 
                     </div>
 

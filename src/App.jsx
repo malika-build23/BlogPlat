@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect } from "react";
 import Navbar from "./components/Navbar";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom"
@@ -11,33 +11,58 @@ import BlogDetails from "./pages/BlogDetails"
 
 function App() {
 
-  const [blogs, setBlogs] = useState([
+  const [blogs, setBlogs] = useState(() => {
 
-    {
-      id: 1,
-      title: "Learning React",
-      content: "Build modern frontend applications using React.",
-      category: "React",
-      image: "https://picsum.photos/400/200?1"
-    },
+    const storedBlogs = localStorage.getItem("blogs")
 
-    {
-      id: 2,
-      title: "Master Tailwind CSS",
-      content: "Learn utility-first CSS styling.",
-      category: "CSS",
-      image: "https://picsum.photos/400/200?2"
-    },
+    return storedBlogs
+      ? JSON.parse(storedBlogs)
+      : [
+        {
+          id: 1,
+          title: "Learning React",
+          content: "Build modern frontend applications using React.",
+          category: "React",
+          image: "https://picsum.photos/400/200?1"
+        },
 
-    {
-      id: 3,
-      title: "Using daisyUI",
-      content: "Create modern UI components quickly.",
-      category: "UI",
-      image: "https://picsum.photos/400/200?3"
-    }
+        {
+          id: 2,
+          title: "Master Tailwind CSS",
+          content: "Learn utility-first CSS styling.",
+          category: "CSS",
+          image: "https://picsum.photos/400/200?2"
+        },
 
-  ]);
+        {
+          id: 3,
+          title: "Using daisyUI",
+          content: "Create modern UI components quickly.",
+          category: "UI",
+          image: "https://picsum.photos/400/200?3"
+        }
+
+      ]
+
+  })
+
+  const deleteBlog = (id) => {
+
+    const updatedBlogs = blogs.filter(
+      (blog) => blog.id !== id
+    );
+
+    setBlogs(updatedBlogs);
+
+  };
+  useEffect(() => {
+
+    localStorage.setItem(
+      "blogs",
+      JSON.stringify(blogs)
+    )
+
+  }, [blogs])
   return (
     <BrowserRouter>
 
@@ -49,9 +74,13 @@ function App() {
 
           <Route
             path="/"
-            element={<Home blogs={blogs} />}
+            element={
+              <Home
+                blogs={blogs}
+                deleteBlog={deleteBlog}
+              />
+            }
           />
-
           <Route
             path="/create-blog"
             element={
