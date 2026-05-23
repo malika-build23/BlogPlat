@@ -174,6 +174,12 @@ const Blogcard = (props) => {
                         >
                             Delete
                         </button>
+                        <Link
+                            to={`/edit-blog/${props.id}`}
+                            className="btn btn-warning btn-sm"
+                        >
+                            Edit
+                        </Link>
 
                     </div>
 

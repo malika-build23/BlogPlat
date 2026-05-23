@@ -1,5 +1,6 @@
 import { useState ,useEffect } from "react";
 import Navbar from "./components/Navbar";
+import EditBlog from "./pages/EditBlog";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Footer from "./components/Footer";
@@ -85,6 +86,15 @@ function App() {
             path="/create-blog"
             element={
               <CreateBlog
+                blogs={blogs}
+                setBlogs={setBlogs}
+              />
+            }
+          />
+          <Route
+            path="/edit-blog/:id"
+            element={
+              <EditBlog
                 blogs={blogs}
                 setBlogs={setBlogs}
               />
