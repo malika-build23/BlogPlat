@@ -25,7 +25,7 @@ const CreateBlog = ({ blogs, setBlogs }) => {
         e.preventDefault();
 
         const newBlog = {
-            id: Date.now(),
+            id: blogs.length + 1,
             title: blog.title,
             image: blog.image,
             category: blog.category,
@@ -33,7 +33,12 @@ const CreateBlog = ({ blogs, setBlogs }) => {
         };
 
         setBlogs([...blogs, newBlog]);
-
+        setBlog({
+            title: "",
+            image: "",
+            category: "",
+            content: "",
+        })
         console.log(newBlog);
 
         alert("Blog Created");
@@ -56,6 +61,7 @@ const CreateBlog = ({ blogs, setBlogs }) => {
                         name="title"
                         placeholder="Blog title"
                         className="w-full p-3 rounded bg-gray-700"
+                        value={blog.title}
                         onChange={handleChange}
                     />
 
@@ -65,6 +71,9 @@ const CreateBlog = ({ blogs, setBlogs }) => {
                         name="image"
                         placeholder="Image URL"
                         className="w-full p-3 rounded bg-gray-700"
+                        
+                        value={blog.image}
+
                         onChange={handleChange}
                     />
 
@@ -74,6 +83,7 @@ const CreateBlog = ({ blogs, setBlogs }) => {
                         name="category"
                         placeholder="Category"
                         className="w-full p-3 rounded bg-gray-700"
+                        value={blog.category}
                         onChange={handleChange}
                     />
 
@@ -83,6 +93,7 @@ const CreateBlog = ({ blogs, setBlogs }) => {
                         name="content"
                         placeholder="Write blog..."
                         className="w-full p-3 rounded bg-gray-700"
+                        value={blog.content}
                         onChange={handleChange}
                     />
 
