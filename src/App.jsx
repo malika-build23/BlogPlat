@@ -1,4 +1,7 @@
 import { useState ,useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+
+import { auth } from "./firebase";
 import Navbar from "./components/Navbar";
 import EditBlog from "./pages/EditBlog";
 
@@ -6,11 +9,29 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Footer from "./components/Footer";
 import Home from "./pages/Home"
 import CreateBlog from "./pages/CreateBlog"
-// import Login from "./pages/Login"
+import Login from "./pages/Login"
 // import Profile from "./pages/Profile"
 import BlogDetails from "./pages/BlogDetails"
 
 function App() {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+
+    const unsubscribe =
+      onAuthStateChanged(auth, (currentUser) => {
+
+        setUser(currentUser);
+
+        console.log(currentUser);
+
+      });
+
+    return () => unsubscribe();
+
+  }, []);
+
+
+
 
   const [blogs, setBlogs] = useState(() => {
 
@@ -67,7 +88,7 @@ function App() {
   return (
     <BrowserRouter>
 
-      <Navbar />
+      <Navbar user={user} />
 
       <div className="pt-20">
 
@@ -101,8 +122,8 @@ function App() {
             }
           />
 
-          {/* <Route path="/login" element={<Login />} />
-
+          <Route path="/login" element={<Login />} />
+{/* 
           <Route path="/profile" element={<Profile />} /> */}
 
           <Route

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from "react-router-dom"
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
     return (
 
         <div className="fixed top-0 left-0 right-0 z-[9999] bg-base-100 shadow-md">
@@ -87,12 +87,32 @@ const Navbar = () => {
                         </svg>
 
                     </button>
+                    {
+                        user && (
+
+                            <div className="flex items-center gap-2">
+
+                                <img
+                                    src={user.photoURL}
+                                    alt="user"
+                                    className="w-10 h-10 rounded-full"
+                                />
+
+                                <p className="font-semibold">
+                                    {user.displayName}
+                                </p>
+
+                            </div>
+
+                        )
+                    }
 
                 </div>
 
             </div>
 
         </div>
+        
 
     )
 }
