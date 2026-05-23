@@ -18,6 +18,7 @@ function App() {
       id: 1,
       title: "Learning React",
       content: "Build modern frontend applications using React.",
+      category: "React",
       image: "https://picsum.photos/400/200?1"
     },
 
@@ -25,6 +26,7 @@ function App() {
       id: 2,
       title: "Master Tailwind CSS",
       content: "Learn utility-first CSS styling.",
+      category: "CSS",
       image: "https://picsum.photos/400/200?2"
     },
 
@@ -32,6 +34,7 @@ function App() {
       id: 3,
       title: "Using daisyUI",
       content: "Create modern UI components quickly.",
+      category: "UI",
       image: "https://picsum.photos/400/200?3"
     }
 

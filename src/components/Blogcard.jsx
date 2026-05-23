@@ -1,7 +1,7 @@
 
 
-
 import React, { useState } from 'react';
+import { Link } from "react-router-dom"
 
 const Blogcard = (props) => {
     const [likes, setLikes] = useState(0);
@@ -14,6 +14,7 @@ const Blogcard = (props) => {
     const [replyText, setReplyText] = useState("");
 
     return (
+
         <div className="hover:scale-105 transition-all duration-300 cursor-pointer">
             <div className="card w-96 bg-black text-white shadow-2xl overflow-hidden">
 
@@ -29,10 +30,9 @@ const Blogcard = (props) => {
                 <div className="card-body">
 
                     {/* Category */}
-                    <div className="badge badge-primary">
-                        Technology
+                    <div className="badge badge-primary inline-flex items-center align-middle p-3">
+                        {props.category}
                     </div>
-
                     {/* Title */}
                     <h2 className="card-title text-2xl mt-2">
                         {props.title}
@@ -68,9 +68,9 @@ const Blogcard = (props) => {
                             placeholder="Write a comment..."
                             className="input input-bordered w-full bg-gray-900 text-white"
                         />
-                        
 
-                        <button class="btn btn-outline btn-info"
+
+                        <button className="btn btn-outline btn-info"
                             onClick={() => {
                                 if (!comment.trim()) return;
 
@@ -161,15 +161,21 @@ const Blogcard = (props) => {
                             </span>
                         </div>
 
-                        <button className="btn btn-primary btn-sm">
+                        <Link
+                            to={`/blog/${props.id}`}
+                            className="btn btn-primary btn-sm"
+                        >
                             Read More
-                        </button>
+                        </Link>
 
                     </div>
 
                 </div>
             </div>
         </div>
+
+
+
     );
 };
 

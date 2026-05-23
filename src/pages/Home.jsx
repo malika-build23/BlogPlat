@@ -32,9 +32,11 @@ const Home = ({ blogs }) => {
 
                         <Blogcard
                             key={blog.id}
+                            id={blog.id}
                             title={blog.title}
                             image={blog.image}
                             description={blog.content}
+                            category={blog.category}
                         />
 
                     ))}
