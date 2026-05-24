@@ -1,55 +1,71 @@
-import { useState ,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 
 import { auth } from "./firebase";
+
 import Navbar from "./components/Navbar";
 import EditBlog from "./pages/EditBlog";
+import Profile from "./pages/Profile";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Footer from "./components/Footer";
-import Home from "./pages/Home"
-import CreateBlog from "./pages/CreateBlog"
-import Login from "./pages/Login"
-// import Profile from "./pages/Profile"
-import BlogDetails from "./pages/BlogDetails"
+import Home from "./pages/Home";
+import CreateBlog from "./pages/CreateBlog";
+import Login from "./pages/Login";
+import BlogDetails from "./pages/BlogDetails";
 
 function App() {
+
+  // USER STATE
   const [user, setUser] = useState(null);
+
+  // AUTH CHECK
   useEffect(() => {
 
-    const unsubscribe =
-      onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (currentUser) => {
 
         setUser(currentUser);
 
         console.log(currentUser);
 
-      });
+      }
+    );
 
     return () => unsubscribe();
 
   }, []);
 
-
-
-
+  // BLOG STATE
   const [blogs, setBlogs] = useState(() => {
 
-    const storedBlogs = localStorage.getItem("blogs")
+    const storedBlogs =
+      localStorage.getItem("blogs");
 
     return storedBlogs
       ? JSON.parse(storedBlogs)
       : [
+
         {
           id: 1,
           title: "Learning React",
-          content: "Build modern frontend applications using React.",
+          content:
+            "Build modern frontend applications using React.",
+
           category: "React",
-          image: "https://picsum.photos/400/200?1",
+
+          image:
+            "https://picsum.photos/400/200?1",
+
           author: {
             displayName: "Admin",
-            photoURL: "https://i.pravatar.cc/100?u=admin"
+            photoURL:
+              "https://i.pravatar.cc/100?u=admin",
+            uid: "admin123"
           },
+
           likes: 0,
           dislikes: 0,
           comments: [],
@@ -58,52 +74,66 @@ function App() {
         {
           id: 2,
           title: "Master Tailwind CSS",
-          content: "Learn utility-first CSS styling.",
+
+          content:
+            "Learn utility-first CSS styling.",
+
           category: "CSS",
-          image: "https://picsum.photos/400/200?2",
+
+          image:
+            "https://picsum.photos/400/200?2",
+
+          author: {
+            displayName: "Admin",
+            photoURL:
+              "https://i.pravatar.cc/100?u=admin",
+            uid: "admin123"
+          },
+
           likes: 0,
           dislikes: 0,
           comments: [],
-          author: {
-            displayName: "Admin",
-            photoURL: "https://i.pravatar.cc/100?u=admin"
-          }
         },
 
         {
           id: 3,
           title: "Using daisyUI",
-          content: "Create modern UI components quickly.",
-          category: "UI",
-          image: "https://picsum.photos/400/200?3",
-          likes: 0,
-          dislikes: 0,
-          comments: [],
-          author: {
-            displayName: "Admin",
-            photoURL: "https://i.pravatar.cc/100?u=admin"
-          }
-        },
 
-        {
-          id: 4,
-          title: "Using daisyUI",
-          content: "Create modern UI components quickly.",
+          content:
+            "Create modern UI components quickly.",
+
           category: "UI",
-          image: "https://picsum.photos/400/200?3",
+
+          image:
+            "https://picsum.photos/400/200?3",
+
+          author: {
+            displayName: "Admin",
+            photoURL:
+              "https://i.pravatar.cc/100?u=admin",
+            uid: "admin123"
+          },
+
           likes: 0,
           dislikes: 0,
           comments: [],
-          author: {
-            displayName: "Admin",
-            photoURL: "https://i.pravatar.cc/100?u=admin"
-          }
         }
-        
 
-      ]
+      ];
 
-  })
+  });
+
+  // SAVE TO LOCAL STORAGE
+  useEffect(() => {
+
+    localStorage.setItem(
+      "blogs",
+      JSON.stringify(blogs)
+    );
+
+  }, [blogs]);
+
+  // LIKE
   const handleLike = (id) => {
 
     setBlogs(
@@ -113,7 +143,7 @@ function App() {
         blog.id === id
           ? {
             ...blog,
-            likes: blog.likes + 1
+            likes: (blog.likes || 0) + 1
           }
           : blog
 
@@ -123,6 +153,7 @@ function App() {
 
   };
 
+  // DISLIKE
   const handleDislike = (id) => {
 
     setBlogs(
@@ -132,7 +163,7 @@ function App() {
         blog.id === id
           ? {
             ...blog,
-            dislikes: blog.dislikes + 1
+            dislikes: (blog.dislikes || 0) + 1
           }
           : blog
 
@@ -142,41 +173,77 @@ function App() {
 
   };
 
+  // ADD COMMENT
+  const addComment = (
+    id,
+    commentText,
+    user
+  ) => {
+
+    setBlogs(
+
+      blogs.map((blog) =>
+
+        blog.id === id
+          ? {
+            ...blog,
+
+            comments: [
+
+              ...(blog.comments || []),
+
+              {
+                text: commentText,
+                user: user.displayName
+              }
+
+            ]
+
+          }
+          : blog
+
+      )
+
+    );
+
+  };
+
+  // DELETE BLOG
   const deleteBlog = (id) => {
 
     if (!user) {
+
       alert("Please login first");
+
       return;
     }
 
-    const blogToDelete = blogs.find(
-      (blog) => blog.id === id
-    );
+    const blogToDelete =
+      blogs.find((blog) => blog.id === id);
 
     if (!blogToDelete) return;
 
-    if (blogToDelete.author?.uid !== user.uid) {
+    if (
+      blogToDelete.author?.uid !== user.uid
+    ) {
 
-      alert("You can delete only your own blogs");
+      alert(
+        "You can delete only your own blogs"
+      );
 
       return;
     }
 
     setBlogs(
-      blogs.filter((blog) => blog.id !== id)
+      blogs.filter(
+        (blog) => blog.id !== id
+      )
     );
+
   };
 
-
-  useEffect(() => {
-
-    localStorage.setItem(
-      "blogs",
-      JSON.stringify(blogs)
-    )
-
-  }, [blogs])
   return (
+
     <BrowserRouter>
 
       <Navbar user={user} />
@@ -185,6 +252,7 @@ function App() {
 
         <Routes>
 
+          {/* HOME */}
           <Route
             path="/"
             element={
@@ -194,9 +262,12 @@ function App() {
                 deleteBlog={deleteBlog}
                 handleLike={handleLike}
                 handleDislike={handleDislike}
+                addComment={addComment}
               />
             }
           />
+
+          {/* CREATE BLOG */}
           <Route
             path="/create-blog"
             element={
@@ -207,6 +278,8 @@ function App() {
               />
             }
           />
+
+          {/* EDIT BLOG */}
           <Route
             path="/edit-blog/:id"
             element={
@@ -217,22 +290,39 @@ function App() {
             }
           />
 
-          <Route path="/login" element={<Login />} />
-{/* 
-          <Route path="/profile" element={<Profile />} /> */}
+          {/* LOGIN */}
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+          <Route
+            path="/profile"
+            element={
+              <Profile
+                user={user}
+                blogs={blogs}
+              />
+            }
+          />
 
+          {/* BLOG DETAILS */}
           <Route
             path="/blog/:id"
-            element={<BlogDetails blogs={blogs} />}
+            element={
+              <BlogDetails blogs={blogs} />
+            }
           />
 
         </Routes>
 
       </div>
+
       <Footer />
 
     </BrowserRouter>
+
   );
+
 }
 
 export default App;

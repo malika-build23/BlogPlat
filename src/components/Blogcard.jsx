@@ -49,11 +49,10 @@ const Blogcard = (props) => {
 
     };
     
-    const [likes, setLikes] = useState(0);
-    const [dislikes, setDislikes] = useState(0);
+
 
     const [comment, setComment] = useState("");
-    const [comments, setComments] = useState([]);
+
 
     const [replyIndex, setReplyIndex] = useState(null);
     const [replyText, setReplyText] = useState("");
@@ -136,10 +135,11 @@ const Blogcard = (props) => {
                             onClick={() => {
                                 if (!comment.trim()) return;
 
-                                setComments([
-                                    ...comments,
-                                    { text: comment, replies: [] }
-                                ]);
+                                props.addComment(
+                                    props.id,
+                                    comment,
+                                    props.user
+                                )
 
                                 setComment("");
                             }}
@@ -150,7 +150,7 @@ const Blogcard = (props) => {
 
                     {/* Comments */}
                     <div className="mt-4">
-                        {comments.map((c, i) => (
+                        {props.comments.map((c, i) => (
                             <div key={i} className="bg-gray-800 p-2 mt-2 rounded">
 
                                 {/* Comment text */}
