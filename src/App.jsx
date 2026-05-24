@@ -104,6 +104,43 @@ function App() {
       ]
 
   })
+  const handleLike = (id) => {
+
+    setBlogs(
+
+      blogs.map((blog) =>
+
+        blog.id === id
+          ? {
+            ...blog,
+            likes: blog.likes + 1
+          }
+          : blog
+
+      )
+
+    );
+
+  };
+
+  const handleDislike = (id) => {
+
+    setBlogs(
+
+      blogs.map((blog) =>
+
+        blog.id === id
+          ? {
+            ...blog,
+            dislikes: blog.dislikes + 1
+          }
+          : blog
+
+      )
+
+    );
+
+  };
 
   const deleteBlog = (id) => {
 
@@ -155,6 +192,8 @@ function App() {
                 blogs={blogs}
                 user={user}
                 deleteBlog={deleteBlog}
+                handleLike={handleLike}
+                handleDislike={handleDislike}
               />
             }
           />

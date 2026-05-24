@@ -15,6 +15,39 @@ const Blogcard = (props) => {
         }
         return author.photoURL;
     };
+    const handleLike = (id) => {
+
+        setBlogs(
+
+            blogs.map((blog) =>
+
+                blog.id === id
+                    ? { ...blog, likes: blog.likes + 1 }
+                    : blog
+
+            )
+
+        );
+
+    };
+    const handleDislike = (id) => {
+
+        setBlogs(
+
+            blogs.map((blog) =>
+
+                blog.id === id
+                    ? {
+                        ...blog,
+                        dislikes: blog.dislikes + 1
+                    }
+                    : blog
+
+            )
+
+        );
+
+    };
     
     const [likes, setLikes] = useState(0);
     const [dislikes, setDislikes] = useState(0);
@@ -60,17 +93,17 @@ const Blogcard = (props) => {
                     <div className="flex gap-2 mt-4">
                         <button className="btn btn-outline btn-success"
                             disabled={!props.user}
-                            onClick={() => setLikes(prev => prev + 1)}
+                            onClick={() => props.handleLike(props.id)}
                         >
-                            ❤️ {likes}
+                            ❤️ {props.likes}
                         </button>
 
 
                         <button className="btn btn-outline"
                             disabled={!props.user}
-                            onClick={() => setDislikes(prev => prev + 1)}
+                            onClick={() => props.handleDislike(props.id)}
                         >
-                            ❌ {dislikes}
+                            ❌ {props.dislikes}
                         </button>
                     </div>
                     {
