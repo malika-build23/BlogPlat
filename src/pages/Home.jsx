@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import Blogcard from "../components/blogcard"
 
-const Home = ({ blogs, deleteBlog }) => {
+const Home = ({ blogs, deleteBlog ,user}) => {
     const blogSectionRef = useRef(null);
 
  
@@ -57,6 +57,7 @@ const Home = ({ blogs, deleteBlog }) => {
                             category={blog.category}
                             deleteBlog={deleteBlog}
                             author={blog.author}
+                            user={user}
                         />
 
                     ))}

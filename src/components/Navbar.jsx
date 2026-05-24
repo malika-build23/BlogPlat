@@ -1,7 +1,27 @@
 import React from 'react'
 import { Link } from "react-router-dom"
+import { signOut } from "firebase/auth";
+
+import { auth } from "../firebase";
 
 const Navbar = ({ user }) => {
+    const handleLogout = async () => {
+
+        try {
+
+            await signOut(auth);
+
+            alert("Logged out!");
+
+        }
+
+        catch (error) {
+
+            console.log(error.message);
+
+        }
+
+    }
     const getPhotoURL = () => {
         if (!user?.photoURL) return "https://i.pravatar.cc/100";
         if (user.photoURL.includes('googleusercontent')) {
@@ -108,6 +128,14 @@ const Navbar = ({ user }) => {
                                 <p className="font-semibold">
                                     {user.displayName || "User"}
                                 </p>
+                                <button
+                                    onClick={handleLogout}
+                                    className="btn btn-error btn-sm"
+                                >
+
+                                    Logout
+
+                                </button>
 
                             </div>
 

@@ -56,8 +56,10 @@ const Blogcard = (props) => {
                     </p>
 
                     {/* Likes / Dislikes */}
+                    
                     <div className="flex gap-2 mt-4">
                         <button className="btn btn-outline btn-success"
+                            disabled={!props.user}
                             onClick={() => setLikes(prev => prev + 1)}
                         >
                             ❤️ {likes}
@@ -65,24 +67,39 @@ const Blogcard = (props) => {
 
 
                         <button className="btn btn-outline"
+                            disabled={!props.user}
                             onClick={() => setDislikes(prev => prev + 1)}
                         >
                             ❌ {dislikes}
                         </button>
                     </div>
+                    {
+                        !props.user && (
+                            <p className="text-red-400 text-sm mt-2">
+                                Login to like blogs
+                            </p>
+                        )
+                    }
 
                     {/* Comment Input */}
                     <div className="mt-4 flex flex-col gap-2">
                         <input
                             type="text"
                             value={comment}
+                            disabled={!props.user}
                             onChange={(e) => setComment(e.target.value)}
-                            placeholder="Write a comment..."
+                            placeholder={
+                                props.user
+                                    ? "Write a comment..."
+                                    : "Login to comment"
+                            }
                             className="input input-bordered w-full bg-gray-900 text-white"
                         />
 
 
-                        <button className="btn btn-outline btn-info"
+                        <button
+                            disabled={!props.user}
+                            className="btn btn-outline btn-info"
                             onClick={() => {
                                 if (!comment.trim()) return;
 
@@ -108,6 +125,7 @@ const Blogcard = (props) => {
 
                                 {/* Reply button */}
                                 <button
+                                    disabled={!props.user}
                                     className="text-blue-400 text-sm mt-1"
                                     onClick={() => {
                                         setReplyIndex(i);
@@ -128,6 +146,7 @@ const Blogcard = (props) => {
                                 {replyIndex === i && (
                                     <div className="mt-2">
                                         <input
+                                            disabled={!props.user}
                                             type="text"
                                             value={replyText}
                                             onChange={(e) => setReplyText(e.target.value)}
@@ -136,6 +155,7 @@ const Blogcard = (props) => {
                                         />
 
                                         <button
+                                            disabled={!props.user}
                                             className="btn btn-sm btn-primary mt-1"
                                             onClick={() => {
                                                 if (!replyText.trim()) return;
@@ -160,7 +180,6 @@ const Blogcard = (props) => {
 
                     {/* Footer */}
                     <div className="flex justify-between items-center mt-4">
-
                         <div className="flex items-center gap-2">
                             <div className="avatar">
                                 <div className="w-8 rounded-full">
@@ -185,25 +204,33 @@ const Blogcard = (props) => {
                             Read More
                         </Link>
 
-                        <button
-                            className="text-gray-400 hover:text-red-500"
-                            onClick={() => props.deleteBlog(props.id)}
-                        >
-                            Delete
-                        </button>
-                        <Link
-                            to={`/edit-blog/${props.id}`}
-                            className="text-gray-400 hover:text-blue-400"
-                        >
-                            Edit
-                        </Link>
+                        {
+                            props.user?.uid === props.author?.uid && (
+                                <>
+
+                                    <button
+                                        className="text-gray-400 hover:text-red-500"
+                                        onClick={() => props.deleteBlog(props.id)}
+                                    >
+                                        Delete
+                                    </button>
+
+                                    <Link
+                                        to={`/edit-blog/${props.id}`}
+                                        className="text-gray-400 hover:text-blue-400"
+                                    >
+                                        Edit
+                                    </Link>
+
+                                </>
+                            )
+                        }
 
                     </div>
 
                 </div>
             </div>
         </div>
-
     );
 };
 

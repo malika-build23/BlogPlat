@@ -30,7 +30,11 @@ const CreateBlog = ({ blogs, setBlogs, user }) => {
             image: blog.image,
             category: blog.category,
             content: blog.content,
+            likes: 0,
+            dislikes: 0,
+            comments: [],
             author: {
+                uid: user.uid,
                 displayName: user?.displayName || "Anonymous",
                 photoURL: user?.photoURL || "https://i.pravatar.cc/100"
             }
@@ -48,6 +52,24 @@ const CreateBlog = ({ blogs, setBlogs, user }) => {
 
         alert("Blog Created");
     };
+
+    if (!user) {
+
+        return (
+
+            <div className="min-h-screen flex justify-center items-center">
+
+                <h1 className="text-4xl font-bold text-red-500">
+
+                    Please Login First
+
+                </h1>
+
+            </div>
+
+        )
+
+    }
 
     return (
         <div className="min-h-screen bg-gray-900 text-white p-6">

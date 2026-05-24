@@ -49,7 +49,10 @@ function App() {
           author: {
             displayName: "Admin",
             photoURL: "https://i.pravatar.cc/100?u=admin"
-          }
+          },
+          likes: 0,
+          dislikes: 0,
+          comments: [],
         },
 
         {
@@ -58,6 +61,9 @@ function App() {
           content: "Learn utility-first CSS styling.",
           category: "CSS",
           image: "https://picsum.photos/400/200?2",
+          likes: 0,
+          dislikes: 0,
+          comments: [],
           author: {
             displayName: "Admin",
             photoURL: "https://i.pravatar.cc/100?u=admin"
@@ -70,6 +76,9 @@ function App() {
           content: "Create modern UI components quickly.",
           category: "UI",
           image: "https://picsum.photos/400/200?3",
+          likes: 0,
+          dislikes: 0,
+          comments: [],
           author: {
             displayName: "Admin",
             photoURL: "https://i.pravatar.cc/100?u=admin"
@@ -82,6 +91,9 @@ function App() {
           content: "Create modern UI components quickly.",
           category: "UI",
           image: "https://picsum.photos/400/200?3",
+          likes: 0,
+          dislikes: 0,
+          comments: [],
           author: {
             displayName: "Admin",
             photoURL: "https://i.pravatar.cc/100?u=admin"
@@ -95,13 +107,30 @@ function App() {
 
   const deleteBlog = (id) => {
 
-    const updatedBlogs = blogs.filter(
-      (blog) => blog.id !== id
+    if (!user) {
+      alert("Please login first");
+      return;
+    }
+
+    const blogToDelete = blogs.find(
+      (blog) => blog.id === id
     );
 
-    setBlogs(updatedBlogs);
+    if (!blogToDelete) return;
 
+    if (blogToDelete.author?.uid !== user.uid) {
+
+      alert("You can delete only your own blogs");
+
+      return;
+    }
+
+    setBlogs(
+      blogs.filter((blog) => blog.id !== id)
+    );
   };
+
+
   useEffect(() => {
 
     localStorage.setItem(
@@ -124,6 +153,7 @@ function App() {
             element={
               <Home
                 blogs={blogs}
+                user={user}
                 deleteBlog={deleteBlog}
               />
             }
