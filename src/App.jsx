@@ -50,9 +50,11 @@ function App() {
 
         {
           id: 1,
+
           title: "Learning React",
+
           content:
-            "Build modern frontend applications using React.",
+            "React is one of the most popular JavaScript libraries used for building modern user interfaces. It helps developers create reusable components and manage application state efficiently. React makes frontend development faster and cleaner.",
 
           category: "React",
 
@@ -68,15 +70,20 @@ function App() {
 
           likes: 0,
           dislikes: 0,
+
+          likedBy: [],
+          dislikedBy: [],
+
           comments: [],
         },
 
         {
           id: 2,
+
           title: "Master Tailwind CSS",
 
           content:
-            "Learn utility-first CSS styling.",
+            "Tailwind CSS is a utility-first CSS framework that allows developers to create beautiful responsive designs quickly. Instead of writing custom CSS repeatedly, Tailwind provides ready-made utility classes that speed up UI development.",
 
           category: "CSS",
 
@@ -92,15 +99,20 @@ function App() {
 
           likes: 0,
           dislikes: 0,
+
+          likedBy: [],
+          dislikedBy: [],
+
           comments: [],
         },
 
         {
           id: 3,
+
           title: "Using daisyUI",
 
           content:
-            "Create modern UI components quickly.",
+            "daisyUI is a component library built on top of Tailwind CSS. It provides pre-designed UI components like buttons, cards, navbars, and modals which help developers build stylish applications faster without writing repetitive code.",
 
           category: "UI",
 
@@ -116,6 +128,10 @@ function App() {
 
           likes: 0,
           dislikes: 0,
+
+          likedBy: [],
+          dislikedBy: [],
+
           comments: [],
         }
 
@@ -123,7 +139,7 @@ function App() {
 
   });
 
-  // SAVE TO LOCAL STORAGE
+  // SAVE BLOGS
   useEffect(() => {
 
     localStorage.setItem(
@@ -133,41 +149,163 @@ function App() {
 
   }, [blogs]);
 
-  // LIKE
+  // LIKE BLOG
   const handleLike = (id) => {
+
+    if (!user) {
+      alert("Login first");
+      return;
+    }
 
     setBlogs(
 
-      blogs.map((blog) =>
+      blogs.map((blog) => {
 
-        blog.id === id
-          ? {
+        if (blog.id !== id) return blog;
+
+        const alreadyLiked =
+          blog.likedBy?.includes(user.uid);
+
+        const alreadyDisliked =
+          blog.dislikedBy?.includes(user.uid);
+
+        // REMOVE LIKE
+        if (alreadyLiked) {
+
+          return {
+
             ...blog,
-            likes: (blog.likes || 0) + 1
-          }
-          : blog
 
-      )
+            likes: blog.likes - 1,
+
+            likedBy: (blog.likedBy || []).filter(
+              (uid) => uid !== user.uid
+            )
+
+          };
+
+        }
+
+        // REMOVE DISLIKE + ADD LIKE
+        if (alreadyDisliked) {
+
+          return {
+
+            ...blog,
+
+            likes: blog.likes + 1,
+
+            dislikes: blog.dislikes - 1,
+
+            likedBy: [
+              ...(blog.likedBy || []),
+              user.uid
+            ],
+
+            dislikedBy: (blog.dislikedBy || []).filter(
+              (uid) => uid !== user.uid
+            )
+
+          };
+
+        }
+
+        // NORMAL LIKE
+        return {
+
+          ...blog,
+
+          likes: blog.likes + 1,
+
+          likedBy: [
+            ...(blog.likedBy || []),
+            user.uid
+          ]
+
+        };
+
+      })
 
     );
 
   };
 
-  // DISLIKE
+  // DISLIKE BLOG
   const handleDislike = (id) => {
+
+    if (!user) {
+      alert("Login first");
+      return;
+    }
 
     setBlogs(
 
-      blogs.map((blog) =>
+      blogs.map((blog) => {
 
-        blog.id === id
-          ? {
+        if (blog.id !== id) return blog;
+
+        const alreadyLiked =
+          blog.likedBy?.includes(user.uid);
+
+        const alreadyDisliked =
+          blog.dislikedBy?.includes(user.uid);
+
+        // REMOVE DISLIKE
+        if (alreadyDisliked) {
+
+          return {
+
             ...blog,
-            dislikes: (blog.dislikes || 0) + 1
-          }
-          : blog
 
-      )
+            dislikes: blog.dislikes - 1,
+
+            dislikedBy: (blog.dislikedBy || []).filter(
+              (uid) => uid !== user.uid
+            )
+
+          };
+
+        }
+
+        // REMOVE LIKE + ADD DISLIKE
+        if (alreadyLiked) {
+
+          return {
+
+            ...blog,
+
+            dislikes: blog.dislikes + 1,
+
+            likes: blog.likes - 1,
+
+            dislikedBy: [
+              ...(blog.dislikedBy || []),
+              user.uid
+            ],
+
+            likedBy: (blog.likedBy || []).filter(
+              (uid) => uid !== user.uid
+            )
+
+          };
+
+        }
+
+        // NORMAL DISLIKE
+        return {
+
+          ...blog,
+
+          dislikes: blog.dislikes + 1,
+
+          dislikedBy: [
+            ...(blog.dislikedBy || []),
+            user.uid
+          ]
+
+        };
+
+      })
 
     );
 
@@ -186,20 +324,20 @@ function App() {
 
         blog.id === id
           ? {
-            ...blog,
+              ...blog,
 
-            comments: [
+              comments: [
 
-              ...(blog.comments || []),
+                ...(blog.comments || []),
 
-              {
-                text: commentText,
-                user: user.displayName
-              }
+                {
+                  text: commentText,
+                  user: user.displayName
+                }
 
-            ]
+              ]
 
-          }
+            }
           : blog
 
       )
@@ -223,6 +361,7 @@ function App() {
 
     if (!blogToDelete) return;
 
+    // only owner can delete
     if (
       blogToDelete.author?.uid !== user.uid
     ) {
@@ -235,9 +374,11 @@ function App() {
     }
 
     setBlogs(
+
       blogs.filter(
         (blog) => blog.id !== id
       )
+
     );
 
   };
@@ -295,6 +436,8 @@ function App() {
             path="/login"
             element={<Login />}
           />
+
+          {/* PROFILE */}
           <Route
             path="/profile"
             element={

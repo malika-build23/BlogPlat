@@ -65,6 +65,8 @@ const CreateBlog = ({
             likes: 0,
 
             dislikes: 0,
+            likedBy: [],
+            dislikedBy: [],
 
             comments: [],
 

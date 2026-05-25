@@ -1,125 +1,127 @@
-
-
-import React, { useState } from 'react';
-import { Link } from "react-router-dom"
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Blogcard = (props) => {
+
     const author = props.author || {
+
         displayName: "Anonymous",
+
         photoURL: "https://i.pravatar.cc/100"
+
     };
-    
+
     const getAuthorPhotoURL = () => {
-        if (author.photoURL.includes('googleusercontent')) {
+
+        if (
+            author.photoURL?.includes(
+                "googleusercontent"
+            )
+        ) {
+
             return `https://images.weserv.nl/?url=${encodeURIComponent(author.photoURL)}`;
+
         }
+
         return author.photoURL;
-    };
-    const handleLike = (id) => {
-
-        setBlogs(
-
-            blogs.map((blog) =>
-
-                blog.id === id
-                    ? { ...blog, likes: blog.likes + 1 }
-                    : blog
-
-            )
-
-        );
 
     };
-    const handleDislike = (id) => {
 
-        setBlogs(
-
-            blogs.map((blog) =>
-
-                blog.id === id
-                    ? {
-                        ...blog,
-                        dislikes: blog.dislikes + 1
-                    }
-                    : blog
-
-            )
-
-        );
-
-    };
-    
-
-
-    const [comment, setComment] = useState("");
-
-
-    const [replyIndex, setReplyIndex] = useState(null);
-    const [replyText, setReplyText] = useState("");
+    const [comment, setComment] =
+        useState("");
 
     return (
 
         <div className="hover:scale-105 transition-all duration-300 cursor-pointer">
+
             <div className="card w-96 bg-black text-white shadow-2xl overflow-hidden">
 
-                {/* Image */}
+                {/* IMAGE */}
                 <figure>
+
                     <img
                         src={props.image}
                         alt="blog"
                         className="h-56 w-full object-cover"
                     />
+
                 </figure>
 
                 <div className="card-body">
 
-                    {/* Category */}
+                    {/* CATEGORY */}
                     <div className="badge badge-primary inline-flex items-center align-middle p-3">
+
                         {props.category}
+
                     </div>
-                    {/* Title */}
+
+                    {/* TITLE */}
                     <h2 className="card-title text-2xl mt-2">
+
                         {props.title}
+
                     </h2>
 
-                    {/* content */}
+                    {/* CONTENT */}
                     <p className="text-gray-300">
-                        {props.content.slice(0, 120)}...
+
+                        {props.content?.slice(0, 120)}...
+
                     </p>
 
-                    {/* Likes / Dislikes */}
-                    
+                    {/* LIKE / DISLIKE */}
                     <div className="flex gap-2 mt-4">
-                        <button className="btn btn-outline btn-success"
+
+                        <button
+                            className="btn btn-outline btn-success"
                             disabled={!props.user}
-                            onClick={() => props.handleLike(props.id)}
+                            onClick={() =>
+                                props.handleLike(props.id)
+                            }
                         >
-                            ❤️ {props.likes}
+
+                            👍 {props.likes || 0}
+
                         </button>
 
-
-                        <button className="btn btn-outline"
+                        <button
+                            className="btn btn-outline btn-error"
                             disabled={!props.user}
-                            onClick={() => props.handleDislike(props.id)}
+                            onClick={() =>
+                                props.handleDislike(props.id)
+                            }
                         >
-                            ❌ {props.dislikes}
+
+                            👎 {props.dislikes || 0}
+
                         </button>
+
                     </div>
+
+                    {/* LOGIN WARNING */}
                     {
                         !props.user && (
+
                             <p className="text-red-400 text-sm mt-2">
-                                Login to like blogs
+
+                                Login to like and comment
+
                             </p>
+
                         )
                     }
 
-                    {/* Comment Input */}
+                    {/* COMMENT INPUT */}
                     <div className="mt-4 flex flex-col gap-2">
+
                         <input
                             type="text"
                             value={comment}
                             disabled={!props.user}
-                            onChange={(e) => setComment(e.target.value)}
+                            onChange={(e) =>
+                                setComment(e.target.value)
+                            }
                             placeholder={
                                 props.user
                                     ? "Write a comment..."
@@ -128,144 +130,145 @@ const Blogcard = (props) => {
                             className="input input-bordered w-full bg-gray-900 text-white"
                         />
 
-
                         <button
                             disabled={!props.user}
                             className="btn btn-outline btn-info"
                             onClick={() => {
-                                if (!comment.trim()) return;
+
+                                if (!comment.trim())
+                                    return;
 
                                 props.addComment(
                                     props.id,
                                     comment,
                                     props.user
-                                )
+                                );
 
                                 setComment("");
+
                             }}
                         >
+
                             Post
+
                         </button>
+
                     </div>
 
-                    {/* Comments */}
+                    {/* COMMENTS */}
                     <div className="mt-4">
-                        {props.comments.map((c, i) => (
-                            <div key={i} className="bg-gray-800 p-2 mt-2 rounded">
 
-                                {/* Comment text */}
-                                <p>{c.text}</p>
+                        {(props.comments || []).map(
+                            (c, i) => (
 
-                                {/* Reply button */}
-                                <button
-                                    disabled={!props.user}
-                                    className="text-blue-400 text-sm mt-1"
-                                    onClick={() => {
-                                        setReplyIndex(i);
-                                        setReplyText("");
-                                    }}
+                                <div
+                                    key={i}
+                                    className="bg-gray-800 p-2 mt-2 rounded"
                                 >
-                                    Reply
-                                </button>
 
-                                {/* Replies */}
-                                {c.replies.map((r, j) => (
-                                    <p key={j} className="ml-4 text-sm text-gray-300">
-                                        ↳ {r.text}
+                                    <p>
+
+                                        <span className="font-bold text-blue-400">
+
+                                            {c.user || "User"}:
+
+                                        </span>{" "}
+
+                                        {c.text}
+
                                     </p>
-                                ))}
 
-                                {/* Reply input */}
-                                {replyIndex === i && (
-                                    <div className="mt-2">
-                                        <input
-                                            disabled={!props.user}
-                                            type="text"
-                                            value={replyText}
-                                            onChange={(e) => setReplyText(e.target.value)}
-                                            placeholder="Write a reply..."
-                                            className="input input-bordered w-full bg-gray-900 text-white"
-                                        />
+                                </div>
 
-                                        <button
-                                            disabled={!props.user}
-                                            className="btn btn-sm btn-primary mt-1"
-                                            onClick={() => {
-                                                if (!replyText.trim()) return;
+                            )
+                        )}
 
-                                                const updated = [...comments];
-                                                updated[i].replies.push({
-                                                    text: replyText
-                                                });
-
-                                                setComments(updated);
-                                                setReplyText("");
-                                                setReplyIndex(null);
-                                            }}
-                                        >
-                                            Send Reply
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        ))}
                     </div>
 
-                    {/* Footer */}
+                    {/* FOOTER */}
                     <div className="flex justify-between items-center mt-4">
+
+                        {/* AUTHOR */}
                         <div className="flex items-center gap-2">
+
                             <div className="avatar">
+
                                 <div className="w-8 rounded-full">
+
                                     <img
                                         src={getAuthorPhotoURL()}
-                                        alt={author.displayName}
+                                        alt={
+                                            author.displayName
+                                        }
                                         className="w-10 h-10 rounded-full"
                                     />
 
-
                                 </div>
+
                             </div>
 
                             <span className="text-sm">
+
                                 {author.displayName}
+
                             </span>
+
                         </div>
+
+                        {/* READ MORE */}
                         <Link
                             to={`/blog/${props.id}`}
                             className="text-blue-400 hover:underline"
                         >
+
                             Read More
+
                         </Link>
 
+                        {/* EDIT / DELETE */}
                         {
-                            props.user?.uid === props.author?.uid && (
-                                <>
+                            props.user?.uid ===
+                            props.author?.uid && (
+
+                                <div className="flex gap-3">
 
                                     <button
                                         className="text-gray-400 hover:text-red-500"
-                                        onClick={() => props.deleteBlog(props.id)}
+                                        onClick={() =>
+                                            props.deleteBlog(
+                                                props.id
+                                            )
+                                        }
                                     >
+
                                         Delete
+
                                     </button>
 
                                     <Link
                                         to={`/edit-blog/${props.id}`}
                                         className="text-gray-400 hover:text-blue-400"
                                     >
+
                                         Edit
+
                                     </Link>
 
-                                </>
+                                </div>
+
                             )
                         }
 
                     </div>
 
                 </div>
-            </div>
-        </div>
-    );
-};
 
+            </div>
+
+        </div>
+
+    );
+
+};
 
 export default Blogcard;
